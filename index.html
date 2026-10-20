@@ -1,0 +1,388 @@
+```html
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carta de Amor Virtual - Retro & Romântica</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Alex+Brush&family=Cinzel:wght@400;600;700&family=Dancing+Script:wght@500;700&family=Great+Vibes&family=Marcellus&family=Montserrat:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        vintage: {
+                            bg: '#fbf7ee',
+                            card: '#f4ede0',
+                            border: '#d4c5b0',
+                            wine: '#6b1d2f',
+                            winelight: '#8b263e',
+                            gold: '#c5a059',
+                            darkgold: '#9e7b32',
+                            ink: '#2b2118',
+                            kraft: '#c2a688',
+                            rose: '#dfa3a8',
+                            parchment: '#f8f1e5'
+                        }
+                    },
+                    fontFamily: {
+                        serif: ['Playfair Display', 'serif'],
+                        cinzel: ['Cinzel', 'serif'],
+                        marcellus: ['Marcellus', 'serif'],
+                        cursive1: ['Great Vibes', 'cursive'],
+                        cursive2: ['Dancing Script', 'cursive'],
+                        cursive3: ['Alex Brush', 'cursive'],
+                        sans: ['Montserrat', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Custom Styling for Vintage Parchment and Envelope FX */
+        body {
+            background-color: #1a1215;
+            background-image: radial-gradient(#3a2228 1px, transparent 1px), radial-gradient(#3a2228 1px, #1a1215 1px);
+            background-size: 40px 40px;
+            background-position: 0 0, 20px 20px;
+            color: #2b2118;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Paper Texture effect */
+        .parchment-texture {
+            background-color: #f6efe2;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Cg fill-opacity='0.03'%3E%3Cpolygon points='0,0 100,0 50,50' fill='%3C/svg%3E"), linear-gradient(135deg, #f8f1e5 0%, #eddcc4 100%);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3), inset 0 0 80px rgba(139, 87, 42, 0.15);
+        }
+
+        .gold-border {
+            border: 2px solid #c5a059;
+            box-shadow: inset 0 0 0 4px #f8f1e5, inset 0 0 0 6px #c5a059;
+        }
+
+        /* Envelope CSS Animation */
+        .envelope-wrapper {
+            perspective: 1000px;
+        }
+
+        .envelope {
+            position: relative;
+            width: 100%;
+            max-width: 420px;
+            height: 280px;
+            background: #6b1d2f;
+            border-radius: 8px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+            transition: all 0.6s ease;
+        }
+
+        .envelope.kraft { background: #967259; }
+        .envelope.beige { background: #d9c5b2; }
+        .envelope.pink { background: #b86b77; }
+
+        .envelope-flap {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 0;
+            border-left: 210px solid transparent;
+            border-right: 210px solid transparent;
+            border-top: 150px solid #8b263e;
+            transform-origin: top;
+            transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1), z-index 0.2s;
+            z-index: 5;
+            filter: drop-shadow(0 4px 6px rgba(0,0,0,0.3));
+        }
+
+        .envelope.kraft .envelope-flap { border-top-color: #aa8266; }
+        .envelope.beige .envelope-flap { border-top-color: #e5d4c3; }
+        .envelope.pink .envelope-flap { border-top-color: #c97c88; }
+
+        .envelope-pocket {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 0;
+            border-left: 210px solid #571726;
+            border-right: 210px solid #571726;
+            border-bottom: 150px solid #4a1320;
+            border-radius: 0 0 8px 8px;
+            z-index: 3;
+        }
+
+        .envelope.kraft .envelope-pocket { border-left-color: #80604a; border-right-color: #80604a; border-bottom-color: #6e523f; }
+        .envelope.beige .envelope-pocket { border-left-color: #c4b09d; border-right-color: #c4b09d; border-bottom-color: #b09e8b; }
+        .envelope.pink .envelope-pocket { border-left-color: #a05a65; border-right-color: #a05a65; border-bottom-color: #8a4b55; }
+
+        .envelope-letter-preview {
+            position: absolute;
+            bottom: 15px;
+            left: 5%;
+            width: 90%;
+            height: 230px;
+            background: #f8f1e5;
+            border-radius: 4px;
+            z-index: 2;
+            transition: transform 0.8s ease-in-out;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+
+        .envelope.open .envelope-flap {
+            transform: rotateX(180deg);
+            z-index: 1;
+        }
+
+        .envelope.open .envelope-letter-preview {
+            transform: translateY(-160px);
+            z-index: 4;
+        }
+
+        /* Wax Seal Styling */
+        .wax-seal {
+            position: absolute;
+            top: 130px;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(1);
+            width: 70px;
+            height: 70px;
+            background: radial-gradient(circle at 30% 30%, #d43f58, #8a1528, #4a0511);
+            border-radius: 50%;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.5), inset 0 2px 4px rgba(255,255,255,0.4), inset 0 -3px 6px rgba(0,0,0,0.6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #d4af37;
+            font-size: 26px;
+            cursor: pointer;
+            z-index: 6;
+            transition: all 0.3s ease;
+            border: 2px dashed rgba(212, 175, 55, 0.4);
+        }
+
+        .wax-seal:hover {
+            transform: translate(-50%, -50%) scale(1.08);
+            box-shadow: 0 6px 15px rgba(212, 63, 88, 0.6), inset 0 2px 4px rgba(255,255,255,0.4);
+        }
+
+        /* Floating Hearts / Rose Petals Animation */
+        .particle {
+            position: fixed;
+            top: -10%;
+            pointer-events: none;
+            z-index: 50;
+            animation: fall linear infinite;
+        }
+
+        @keyframes fall {
+            0% {
+                transform: translateY(0) rotate(0deg) scale(0.8);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(105vh) rotate(360deg) scale(1.2);
+                opacity: 0;
+            }
+        }
+
+        /* Custom Scrollbar for Vintage aesthetic */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #1a1215;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #c5a059;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #6b1d2f;
+        }
+
+        /* Polaroid Photo Effect */
+        .polaroid {
+            background: #fff;
+            padding: 12px 12px 24px 12px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+            transform: rotate(-2deg);
+            transition: all 0.3s ease;
+        }
+        .polaroid:nth-child(even) {
+            transform: rotate(3deg);
+        }
+        .polaroid:hover {
+            transform: scale(1.04) rotate(0deg);
+            z-index: 10;
+            box-shadow: 0 12px 30px rgba(0,0,0,0.4);
+        }
+
+        /* Stamp Badge Styling */
+        .vintage-stamp {
+            border: 2px dashed #9e7b32;
+            background: #f4ede0;
+            position: relative;
+            padding: 8px 12px;
+            display: inline-block;
+            font-family: 'Cinzel', serif;
+            color: #6b1d2f;
+        }
+
+        /* Toast Popup */
+        #toast {
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+    </style>
+</head>
+<body class="font-sans antialiased text-vintage-ink selection:bg-vintage-gold selection:text-white">
+
+    <!-- Toast Notification -->
+    <div id="toast" class="fixed top-5 right-5 z-50 bg-vintage-wine text-vintage-bg px-5 py-3 rounded-lg shadow-2xl border border-vintage-gold hidden flex items-center space-x-3 transform translate-y-[-20px] opacity-0">
+        <i id="toast-icon" class="fas fa-check-circle text-vintage-gold text-lg"></i>
+        <span id="toast-message" class="text-sm font-medium">Notificação</span>
+    </div>
+
+    <!-- Audio Player Element -->
+    <audio id="bg-music" loop></audio>
+
+    <!-- Floating Audio Control Widget (For Letter View) -->
+    <div id="audio-widget" class="fixed bottom-5 right-5 z-40 hidden flex items-center bg-vintage-wine/90 border border-vintage-gold backdrop-blur text-vintage-bg rounded-full p-2 pr-4 shadow-xl text-xs space-x-2">
+        <button id="btn-toggle-audio" class="w-10 h-10 rounded-full bg-vintage-gold text-vintage-wine flex items-center justify-center hover:scale-105 transition">
+            <i class="fas fa-music" id="audio-icon"></i>
+        </button>
+        <div class="flex flex-col">
+            <span class="font-bold text-vintage-gold" id="audio-title">Música de Fundo</span>
+            <span class="text-[10px] text-vintage-bg/80">Romântica</span>
+        </div>
+    </div>
+
+    <!-- MAIN APP CONTAINER -->
+    <div class="min-h-screen flex flex-col justify-between">
+        
+        <!-- TOP NAVIGATION BAR -->
+        <header class="bg-vintage-wine/90 border-b border-vintage-gold/40 px-4 py-3 sticky top-0 z-30 backdrop-blur-md">
+            <div class="max-w-5xl mx-auto flex justify-between items-center">
+                <div class="flex items-center space-x-2">
+                    <i class="fas fa-envelope-open-text text-vintage-gold text-2xl"></i>
+                    <span class="font-cinzel font-bold text-lg text-vintage-bg tracking-wide">Tempo Juntos</span>
+                </div>
+                <div class="flex items-center space-x-2">
+                    <button id="btn-mode-editor" onclick="switchMode('editor')" class="px-3 py-1.5 rounded-full text-xs font-semibold tracking-wider transition bg-vintage-gold text-vintage-wine">
+                        <i class="fas fa-edit mr-1"></i> Criar Carta
+                    </button>
+                    <button id="btn-mode-preview" onclick="switchMode('preview')" class="px-3 py-1.5 rounded-full text-xs font-semibold tracking-wider transition bg-transparent text-vintage-bg border border-vintage-gold/50 hover:border-vintage-gold">
+                        <i class="fas fa-eye mr-1"></i> Ver Carta
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- ========================================== -->
+        <!-- 1. MODO EDITOR / CRIADOR                   -->
+        <!-- ========================================== -->
+        <main id="editor-section" class="max-w-4xl mx-auto w-full px-4 py-8 flex-1">
+            <div class="text-center mb-8">
+                <h1 class="font-cinzel text-3xl md:text-4xl font-bold text-vintage-gold mb-2">Carta de Amor Virtual Retro</h1>
+                <p class="text-vintage-bg/80 text-sm md:text-base max-w-xl mx-auto">Personalize uma experiência romântica inesquecível para a pessoa amada. Preencha os detalhes e compartilhe o link!</p>
+            </div>
+
+            <div class="bg-vintage-card/90 border border-vintage-gold/50 rounded-xl p-4 md:p-8 shadow-2xl backdrop-blur-sm">
+                <!-- Navigation Tabs -->
+                <div class="flex border-b border-vintage-border overflow-x-auto mb-6 pb-2 scrollbar-none space-x-2 text-xs md:text-sm font-semibold">
+                    <button onclick="switchTab('basic')" id="tab-basic" class="tab-btn active px-4 py-2 rounded-t-lg bg-vintage-wine text-vintage-gold border-t border-x border-vintage-gold">
+                        <i class="fas fa-heart mr-1.5"></i> Principal
+                    </button>
+                    <button onclick="switchTab('design')" id="tab-design" class="tab-btn px-4 py-2 rounded-t-lg text-vintage-ink hover:text-vintage-wine">
+                        <i class="fas fa-paint-brush mr-1.5"></i> Estilo & Envelope
+                    </button>
+                    <button onclick="switchTab('gallery')" id="tab-gallery" class="tab-btn px-4 py-2 rounded-t-lg text-vintage-ink hover:text-vintage-wine">
+                        <i class="fas fa-images mr-1.5"></i> Fotos & Memórias
+                    </button>
+                    <button onclick="switchTab('reasons')" id="tab-reasons" class="tab-btn px-4 py-2 rounded-t-lg text-vintage-ink hover:text-vintage-wine">
+                        <i class="fas fa-list-ol mr-1.5"></i> Razões para Amar
+                    </button>
+                </div>
+
+                <!-- Form Controls Container -->
+                <form id="letter-form" onsubmit="event.preventDefault();">
+                    
+                    <!-- TAB 1: BASIC INFORMATION -->
+                    <div id="tab-content-basic" class="tab-content space-y-5">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-xs font-bold uppercase tracking-wider text-vintage-wine mb-1">De (Seu Nome / Apelido)</label>
+                                <input type="text" id="input-from" value="Seu Amor" class="w-full px-4 py-2.5 rounded-lg border border-vintage-border bg-vintage-bg text-vintage-ink focus:outline-none focus:ring-2 focus:ring-vintage-gold">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold uppercase tracking-wider text-vintage-wine mb-1">Para (Nome do Seu Amor)</label>
+                                <input type="text" id="input-to" value="Minha Vida" class="w-full px-4 py-2.5 rounded-lg border border-vintage-border bg-vintage-bg text-vintage-ink focus:outline-none focus:ring-2 focus:ring-vintage-gold">
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-bold uppercase tracking-wider text-vintage-wine mb-1">Data de Início da História do Casal</label>
+                            <input type="datetime-local" id="input-date" class="w-full px-4 py-2.5 rounded-lg border border-vintage-border bg-vintage-bg text-vintage-ink focus:outline-none focus:ring-2 focus:ring-vintage-gold">
+                            <p class="text-[11px] text-vintage-ink/70 mt-1"><i class="fas fa-clock mr-1"></i>Isto alimentará o contador de tempo ao vivo na carta.</p>
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-bold uppercase tracking-wider text-vintage-wine mb-1">Título da Carta</label>
+                            <input type="text" id="input-title" value="Para o Amor da Minha Vida" class="w-full px-4 py-2.5 rounded-lg border border-vintage-border bg-vintage-bg text-vintage-ink focus:outline-none focus:ring-2 focus:ring-vintage-gold">
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-bold uppercase tracking-wider text-vintage-wine mb-1">Mensagem de Amor Principal</label>
+                            <textarea id="input-message" rows="6" class="w-full px-4 py-2.5 rounded-lg border border-vintage-border bg-vintage-bg text-vintage-ink focus:outline-none focus:ring-2 focus:ring-vintage-gold font-serif leading-relaxed" placeholder="Escreva aqui sua mensagem do fundo do coração..."></textarea>
+                        </div>
+                    </div>
+
+                    <!-- TAB 2: DESIGN & AUDIO -->
+                    <div id="tab-content-design" class="tab-content hidden space-y-6">
+                        <div>
+                            <label class="block text-xs font-bold uppercase tracking-wider text-vintage-wine mb-2">Cor do Envelope Vintage</label>
+                            <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+                                <label class="cursor-pointer border-2 border-vintage-gold rounded-lg p-3 flex flex-col items-center justify-center bg-vintage-wine text-white shadow hover:opacity-90">
+                                    <input type="radio" name="envelope-color" value="wine" checked class="hidden">
+                                    <i class="fas fa-envelope text-2xl mb-1"></i>
+                                    <span class="text-xs font-semibold">Vinho Retro</span>
+                                </label>
+                                <label class="cursor-pointer border-2 border-transparent rounded-lg p-3 flex flex-col items-center justify-center bg-[#967259] text-white shadow hover:opacity-90">
+                                    <input type="radio" name="envelope-color" value="kraft" class="hidden">
+                                    <i class="fas fa-envelope text-2xl mb-1"></i>
+                                    <span class="text-xs font-semibold">Papel Kraft</span>
+                                </label>
+                                <label class="cursor-pointer border-2 border-transparent rounded-lg p-3 flex flex-col items-center justify-center bg-[#d9c5b2] text-vintage-ink shadow hover:opacity-90">
+                                    <input type="radio" name="envelope-color" value="beige" class="hidden">
+                                    <i class="fas fa-envelope text-2xl mb-1"></i>
+                                    <span class="text-xs font-semibold">Bege Vintage</span>
+                                </label>
+                                <label class="cursor-pointer border-2 border-transparent rounded-lg p-3 flex flex-col items-center justify-center bg-[#b86b77] text-white shadow hover:opacity-90">
+                                    <input type="radio" name="envelope-color" value="pink" class="hidden">
+                                    <i class="fas fa-envelope text-2xl mb-1"></i>
+                                    <span class="text-xs font-semibold">Rosa Pastel</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-bold uppercase tracking-wider text-vintage-wine mb-2">Lacre de Cera Retro</label>
+                            <div class="grid grid-cols-4 gap-3">
+                                <label class="cursor-pointer border-2 border-vintage-gold rounded-lg p-3 flex flex-col items-center justify-center bg-vintage-bg text-vintage-wine shadow">
+                                    <input type="radio" name="wax-seal" value="fa-heart" checked class="hidden">
+                                    <i class="fas fa-heart text-2xl mb-1"></i>
+                                    <span class="text-[10px] uppercase font-bold">Coração</span>
+                                </label>
+                                <label class="cursor-pointer border-2 border-transparent rounded-lg p-3 flex flex-col items-center justify-center bg-vintage-bg text-vintag
